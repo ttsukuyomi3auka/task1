@@ -7,32 +7,37 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NewCubit, NewsState>(builder: (context, state) {
-      if (state is NewsLoading) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is NewsLoaded) {
-        return ListView.builder(
-          itemCount: state.news.length,
-          itemBuilder: (context, index) {
-            final news = state.news[index];
-            return ListTile(
-              title: Text(news.title),
-              subtitle: Text(
-                news.description,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: news.isPopular ? Text('this news is popular') : null,
+    return Scaffold(
+      appBar: AppBar(title: Text('Отобразить на экране список новостей')),
+      body: BlocBuilder<NewsCubit, NewsState>(
+        builder: (context, state) {
+          if (state is NewsLoading) {
+            return Center(
+              child: CircularProgressIndicator(),
             );
-          },
-        );
-      } else {
-        return Center(
-          child: Text('Downlod error'),
-        );
-      }
-    });
+          } else if (state is NewsLoaded) {
+            return ListView.builder(
+              itemCount: state.news.length,
+              itemBuilder: (context, index) {
+                final news = state.news[index];
+                return ListTile(
+                  title: Text(news.title),
+                  subtitle: Text(
+                    news.description,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  trailing: news.hot ? Text('горячие новости выводим в начало списка') : null,
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: Text('Download error'),
+            );
+          }
+        },
+      ),
+    );
   }
 }

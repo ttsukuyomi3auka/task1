@@ -2,23 +2,28 @@
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class News {
+  final String date;
   final String title;
   final String description;
-  final String date;
-  final bool isPopular;
+  final String author;
+  final bool hot;
   News({
+    required this.date,
     required this.title,
     required this.description,
-    required this.date,
-    required this.isPopular,
+    required this.author,
+    required this.hot,
   });
 
   factory News.fromJson(Map<String, dynamic> json) {
     return News(
+      date: json['date'] != null
+          ? DateTime.fromMillisecondsSinceEpoch(json['date']).toIso8601String()
+          : '',
       title: json['title'] ?? 'No Title',
       description: json['description'] ?? 'No Description',
-      date: json['date'] ?? '',
-      isPopular: json['isPopular'] ?? false,
+      author: json['author'] ?? 'No Author',
+      hot: json['isPopular'] ?? false,
     );
   }
 
