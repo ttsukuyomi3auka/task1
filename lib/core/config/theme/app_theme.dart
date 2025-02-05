@@ -9,7 +9,7 @@ class AppTheme {
 
   // change this awful tasteless design
 
-  //The theme i copy from the done project
+  //The theme i copy from the done project 
 
   static final light = FlexThemeData.light(
     scheme: FlexScheme.materialBaseline,

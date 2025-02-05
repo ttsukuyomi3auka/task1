@@ -7,8 +7,10 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
-      appBar: AppBar(title: Text('Отобразить на экране список новостей')),
+      appBar: AppBar(
+        title: Text('Отобразить на экране список новостей')),
       body: BlocBuilder<NewsCubit, NewsState>(
         builder: (context, state) {
           if (state is NewsLoading) {

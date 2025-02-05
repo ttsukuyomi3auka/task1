@@ -27,11 +27,9 @@ class NewsCubit extends Cubit<NewsState> {
     emit(NewsLoading());
     try {
       final news = await service.fetchNews();
-      print('Данные перед загрузкой в UI: $news'); // Проверяем, дошли ли данные
       emit(NewsLoaded(news));
     } catch (e) {
-      print('Ошибка в Cubit: $e');
-      emit(NewsError('Download error'));
+      rethrow;
     }
   }
 }

@@ -23,7 +23,7 @@ class News {
       title: json['title'] ?? 'No Title',
       description: json['description'] ?? 'No Description',
       author: json['author'] ?? 'No Author',
-      hot: json['isPopular'] ?? false,
+      hot: json['hot'] ?? false,
     );
   }
 

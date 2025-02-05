@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:task1/features/news/data/data.dart';
+import 'package:task1/features/news/data/models/news_model.dart';
 
 class NewsService {
   final Dio dio = Dio();
@@ -11,14 +12,35 @@ class NewsService {
     ]);
 
     final List<News> newsList = [];
-    for (var response in responses) {
-      final data = response.data; // data — это Map, а нам нужен List
-      if (data is Map<String, dynamic> && data.containsKey('newsLine')) {
-        final List<dynamic> newsData = data['newsLine'];
-        newsList.addAll(News.fromApi(newsData));
+    try {
+      for (var response in responses) {
+        print('Response data: ${response.data}');
+
+        if (response.data is List) {
+          newsList.addAll(News.fromApi(response.data));
+        } else if (response.data is Map) {
+          var data = response.data['data'];
+          if (data != null && data is List) {
+            newsList.addAll(News.fromApi(data));
+          } else {
+            print('Expected a List in the "data" field but got: $data');
+          }
+        }
       }
+
+      // Сортируем сначала по полю 'hot', затем по дате
+      newsList.sort((a, b) {
+        // Сначала новости с hot: true
+        if (a.hot && !b.hot) return -1;
+        if (!a.hot && b.hot) return 1;
+        return b.date.compareTo(a.date);
+      });
+
+      return newsList;
+    } catch (e) {
+      // Обрабатываем возможные ошибки и возвращаем пустой список
+      print('Error fetching news: $e');
+      return []; // Возвращаем пустой список в случае ошибки
     }
-    newsList.sort((a, b) => b.date.compareTo(a.date));
-    return newsList;
   }
 }
