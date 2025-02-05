@@ -7,10 +7,8 @@ class NewsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Отобразить на экране список новостей')),
+      appBar: AppBar(title: Text('Отобразить на экране список новостей')),
       body: BlocBuilder<NewsCubit, NewsState>(
         builder: (context, state) {
           if (state is NewsLoading) {
@@ -29,13 +27,20 @@ class NewsScreen extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  trailing: news.hot ? Text('горячие новости выводим в начало списка') : null,
+                  trailing: news.hot
+                      ? Column(
+                          children: [
+                            Icon(Icons.star),
+                            Text('горячие новости выводим в начало списка')
+                          ],
+                        )
+                      : null,
                 );
               },
             );
           } else {
             return Center(
-              child: Text('Download error'),
+              child: Text('Ошибка при загрузке новостей'),
             );
           }
         },

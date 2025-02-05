@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task1/core/network/network.dart';
-import 'package:task1/features/news/data/models/news_model.dart';
+import 'package:task1/features/features.dart';
 
 abstract class NewsState {}
 
@@ -19,14 +18,14 @@ class NewsError extends NewsState {
 }
 
 class NewsCubit extends Cubit<NewsState> {
-  final NewsService service;
+  final NewsRepository repository;
 
-  NewsCubit(this.service) : super(NewsInitial());
+  NewsCubit(this.repository) : super(NewsInitial());
 
   Future<void> loadNews() async {
     emit(NewsLoading());
     try {
-      final news = await service.fetchNews();
+      final news = await repository.fetchNews();
       emit(NewsLoaded(news));
     } catch (e) {
       rethrow;

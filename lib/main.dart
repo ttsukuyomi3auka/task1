@@ -1,31 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task1/core/router/router.dart';
 import 'package:task1/core/network/network.dart';
+import 'package:task1/features/news/data/data.dart';
 import 'package:task1/features/news/domain/domain.dart';
-
+import 'package:task1/features/screens/news_screen.dart';
 
 void main() {
   final newsService = NewsService();
-  runApp(Task1(newsService));
+  final newsRepository = NewsRepository(newsService);
+
+  runApp(Task1(newsRepository));
 }
 
 class Task1 extends StatelessWidget {
-  final NewsService newsService;
-  const Task1(this.newsService, {super.key});
+  final NewsRepository newsRepository;
+  const Task1(this.newsRepository, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => NewsCubit(newsService)..loadNews(),
-      child: MaterialApp.router(
+      create: (_) => NewsCubit(newsRepository)..loadNews(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primaryColor: const Color.fromARGB(255, 47, 53, 49),
-          scaffoldBackgroundColor: const Color.fromARGB(141, 56, 92, 66),
-          textTheme: TextTheme(bodyLarge: TextStyle(color: Colors.white)),
+          secondaryHeaderColor: const Color.fromARGB(210, 46, 49, 47),
+          scaffoldBackgroundColor: const Color.fromARGB(131, 56, 92, 66),
+          textTheme: TextTheme(
+              bodyLarge:
+                  TextStyle(color: const Color.fromARGB(255, 255, 255, 255))),
         ),
-        routerConfig: router,
-        ),
-      );
+        home: NewsScreen(),
+      ),
+    );
   }
 }
