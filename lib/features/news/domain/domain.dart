@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:task1/features/features.dart';
+import 'package:task1/features/news/data/models/news_model.dart';
+import 'package:task1/features/news/data/repositories/news_repository.dart';
 
 abstract class NewsState {}
 

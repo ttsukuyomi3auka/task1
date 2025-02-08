@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:task1/core/network/network.dart';
 import 'package:task1/features/news/data/data.dart';
 import 'package:task1/features/news/domain/domain.dart';
-import 'package:task1/features/screens/news_screen.dart';
+import 'package:task1/features/news/screens/news_screen.dart';
 
 void main() {
   final newsService = NewsService();

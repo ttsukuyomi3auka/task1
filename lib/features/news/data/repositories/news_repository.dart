@@ -2,19 +2,17 @@ import 'package:task1/features/news/data/data.dart';
 import 'package:task1/features/news/data/models/news_model.dart';
 
 import 'package:task1/core/core.dart';
-import 'package:task1/features/features.dart';
 
 class NewsRepository {
   final NewsService newsService;
 
   NewsRepository(this.newsService);
 
-   Future<List<News>> fetchNews() async {
+  Future<List<News>> fetchNews() async {
     final responses = await Future.wait([
       newsService.get('https://exams2.masqed.ru/api1'),
       newsService.get('https://exams2.masqed.ru/api2')
     ]);
-
     final List<News> newsList = [];
     try {
       for (var response in responses) {
@@ -43,7 +41,7 @@ class NewsRepository {
       return newsList;
     } catch (e) {
       print('Error fetching news: $e');
-      return []; 
+      return [];
     }
   }
 }
